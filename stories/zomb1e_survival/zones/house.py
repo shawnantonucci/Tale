@@ -29,6 +29,7 @@ class GameEnd(Location):
 
 
 livingroom = Location("Living room", "The living room in your home in the outskirts of the city.")
+bedroom = Location("Bed room", "A small bedroom with a single bed an a T.V in the corner.")
 closet = Location("Closet", "A small room.")
 outside = GameEnd("Outside", "It is beautiful weather outside.")
 
@@ -43,6 +44,9 @@ livingroom.add_exits([door])
 
 Exit.connect(livingroom, "closet", "There's a small closet in your house.", None,
              closet, ["living room", "back"], "You can see the living room where you came from.", None)
+
+Exit.connect(livingroom, "bedroom", "There a a bedroom in the back of the house", None,
+            bedroom, ["living room", "back"], "The living room is where you came from", None)
 
 
 # define items and NPCs
