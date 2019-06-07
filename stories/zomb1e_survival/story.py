@@ -70,6 +70,7 @@ class Story(StoryBase):
         player.tell("<bright>Welcome back to `%s'.</>" % self.config.name, end=True)
         player.tell("\n")
         player.tell_text_file(self.driver.resources["messages/welcome.txt"])
+        player.tell_text_file(self.driver.resources["messages/motd.txt"])
         player.tell("\n")
         return "<bright>Press enter to continue where you were before.</>"
 

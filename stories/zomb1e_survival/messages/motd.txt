@@ -1,0 +1,4 @@
+Message-of-the-day.
+
+This game is still under heavy development.
+Please report any problems you may find.
