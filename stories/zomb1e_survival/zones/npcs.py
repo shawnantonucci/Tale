@@ -64,8 +64,8 @@ class Trader(Living):
     @property
     def description(self) -> str:
         if self.search_item("ammo", include_location=False):
-            return "%s looks scared, and clenches a small bottle in %s hands." % (lang.capital(self.subjective), self.possessive)
-        return "%s looks scared." % self.subjective
+            return "%s looks at you and shows you a box of ammo in %s hands." % (lang.capital(self.subjective), self.possessive)
+        return "%s see you again." % self.subjective
 
     @description.setter
     def description(self, value: str) -> None:
@@ -105,7 +105,7 @@ class Trader(Living):
         if "bullets" in parsed.unparsed or "ammo" in parsed.unparsed:
             if self.search_item("ammo", include_location=False):  # do we still have the ammo?
                 price = mud_context.driver.moneyfmt.display(self.ammo_price)
-                self.tell_others("{Actor} clenches the bottle %s's holding even tighter. %s says: "
+                self.tell_others("{Actor} clenches bof of %s's holding even tighter. %s says: "
                                  "\"You won't get them for free! They will cost you %s!\""
                                  % (self.subjective, lang.capital(self.subjective), price))
             else:
