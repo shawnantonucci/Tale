@@ -44,6 +44,11 @@ class Story(StoryBase):
     # You can override various methods of the StoryBase class,
     # have a look at the Tale example stories to learn how you can use these.
 
+    driver = None     # will be set by init()
+
+    def init(self, driver: Driver) -> None:
+        """Called by the game driver when it is done with its initial initialization."""
+        self.driver = driver
 
     def init_player(self, player: Player) -> None:
         """

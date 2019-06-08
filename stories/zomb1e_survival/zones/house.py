@@ -12,9 +12,10 @@ from tale.base import Location, Exit, Door, Key, Living, ParseResult
 from tale.errors import StoryCompleted
 from tale.lang import capital
 from tale.player import Player
-from tale.util import Context, call_periodically
+from tale.util import call_periodically, Context
 from tale.items.basic import elastic_band, woodenYstick
 from tale.verbdefs import AGGRESSIVE_VERBS
+# from npcs import Zombie
 
 
 # define the various locations
@@ -26,7 +27,6 @@ class GameEnd(Location):
         player.tell("\n")
         player.tell("<bright>Congratulations on escaping the house!</> Someone else has to look after Garfield now though...")
         raise StoryCompleted
-
 
 # Rooms
 livingroom = Location("Living room", "The living room in your home in the outskirts of the city.")
@@ -56,7 +56,7 @@ class Cat(Living):
     def init(self) -> None:
         self.aliases = {"cat"}
 
-    @call_periodically(5, 20)
+    @call_periodically(1, 60)
     def do_purr(self, ctx: Context) -> None:
         if random.random() > 0.7:
             self.location.tell("%s purrs happily." % capital(self.title))
@@ -79,9 +79,43 @@ class Cat(Living):
             if self.name in message or "cat" in message:
                 self.tell_others("{Actor} looks up at {target} and wiggles %s tail." % self.possessive, target=actor)
 
+class Zombie(Living):
+    def init(self):
+        self.attacking = False
+
+    @call_periodically(10, 20)
+    def do_wander(self, ctx: Context) -> None:
+        if not self.attacking:
+            # Let the mob wander randomly.
+            direction = self.select_random_move()
+            if direction:
+                self.move(direction.target, self, direction_names=direction.names)
+
+    @call_periodically(4, 10)
+    def do_attack(self, ctx: Context) -> None:
+        if not self.attacking:
+            for liv in self.location.livings:
+                if isinstance(liv, Player):
+                    self.start_attack(liv)
+                    liv.tell("It may be a good idea to run away!")
+                    self.attacking = True
+                    ctx.driver.defer(5, self.kill_player, liv)      # give player a moment to react to the attack
+                    break
+
+    def kill_player(self, player: Player, ctx: Context) -> None:
+        # player can only be killed if she is still here, obviously
+        if self.attacking and player in self.location.livings:
+            player.tell_text_file(ctx.resources["messages/completion_failed.txt"])
+            raise StoryCompleted
+        self.attacking = False
+
 
 cat = Cat("garfield", "m", race="cat", descr="A very obese cat, orange and black. It looks tired, but glances at you happily.")
 livingroom.insert(cat, None)
+
+zombie =  w = Zombie("zombie", random.choice("mf"), descr="A person staring blankly somewhere.")
+livingroom.insert(zombie, None)
+
 key = Key("key", "small rusty key", descr="This key is small and rusty. It has a label attached, reading \"garden door\".")
 key.key_for(door)
 closet.insert(key, None)
