@@ -88,8 +88,8 @@ class Bird(Living):
 bird = Bird("Parakeet", "m", race="bird", descr="A small bird flapping around the room.")
 livingroom.insert(bird, None)
 
-# zombie =  w = Zombie("zombie", random.choice("mf"), descr="A person staring blankly somewhere.")
-# livingroom.insert(zombie, None)
+zombie =  w = Zombie("zombie", random.choice("mf"), descr="A person staring blankly somewhere.")
+livingroom.insert(zombie, None)
 
 key = Key("key", "small rusty key", descr="This key is small and rusty. It has a label attached, reading \"garden door\".")
 key.key_for(door)

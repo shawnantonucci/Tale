@@ -22,8 +22,8 @@ class Story(StoryBase):
     config.author_address = "shawnantonucci6688@gmail.com"
     config.version = "1.0"
     config.requires_tale = "4.6"
-#     config.supported_modes = {GameMode.IF}
-    config.supported_modes = {GameMode.MUD}
+    config.supported_modes = {GameMode.IF}
+    # config.supported_modes = {GameMode.MUD}
     config.money_type = MoneyType.MODERN
     config.player_money = 100.0
     config.player_name = "TwistedZiefer"
@@ -38,7 +38,7 @@ class Story(StoryBase):
     config.epoch = datetime.datetime(2015, 5, 14, 14, 0, 0)       # start date/time of the game clock\
     config.savegames_enabled = True
     config.show_exits_in_look = True
-    config.mud_host = "35.236.15.213"
+    config.mud_host = "localhost"
     config.mud_port = 1234
     config.license_file = "messages/license.txt"
     # Your story-specific configuration fields should be added below.
