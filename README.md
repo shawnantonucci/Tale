@@ -44,3 +44,7 @@ If my server is up, you can find the first two running online, see http://www.ra
 Zomb1e Survival
 
 Text adventure Mud built with 'Tale' - mud, mudlib & interactive fiction framework
+
+To start server and get gui for Mud run
+
+python -m tale.main --game ./stories/zomb1e_survival --mode mud

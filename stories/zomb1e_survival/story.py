@@ -22,7 +22,8 @@ class Story(StoryBase):
     config.author_address = "shawnantonucci6688@gmail.com"
     config.version = "1.0"
     config.requires_tale = "4.6"
-    config.supported_modes = {GameMode.MUD}
+    config.supported_modes = {GameMode.IF}
+    # config.supported_modes = {GameMode.MUD}
     config.money_type = MoneyType.MODERN
     config.player_money = 100.0
     config.player_name = "TwistedZiefer"
@@ -44,6 +45,11 @@ class Story(StoryBase):
     # You can override various methods of the StoryBase class,
     # have a look at the Tale example stories to learn how you can use these.
 
+    driver = None     # will be set by init()
+
+    def init(self, driver: Driver) -> None:
+        """Called by the game driver when it is done with its initial initialization."""
+        self.driver = driver
 
     def init_player(self, player: Player) -> None:
         """
@@ -69,7 +75,8 @@ class Story(StoryBase):
         """
         player.tell("<bright>Welcome back to `%s'.</>" % self.config.name, end=True)
         player.tell("\n")
-        player.tell_text_file(self.driver.resources["messages/welcome.txt"])
+        # player.tell_text_file(self.driver.resources["messages/welcome.txt"])
+        # player.tell_text_file(self.driver.resources["messages/motd.txt"])
         player.tell("\n")
         return "<bright>Press enter to continue where you were before.</>"
 
