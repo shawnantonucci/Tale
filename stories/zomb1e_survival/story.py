@@ -22,7 +22,8 @@ class Story(StoryBase):
     config.author_address = "shawnantonucci6688@gmail.com"
     config.version = "1.0"
     config.requires_tale = "4.6"
-    config.supported_modes = {GameMode.MUD}
+    config.supported_modes = {GameMode.IF}
+    # config.supported_modes = {GameMode.MUD}
     config.money_type = MoneyType.MODERN
     config.player_money = 100.0
     config.player_name = "TwistedZiefer"

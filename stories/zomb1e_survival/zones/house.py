@@ -8,19 +8,24 @@ The generated demo code below is provided for you to use or modify as you wish.
 
 import random
 
-from tale.base import Location, Exit, Door, Key, Living, ParseResult
+from tale.base import Location, Exit, Door, Key, Living, ParseResult, Item
 from tale.errors import StoryCompleted
 from tale.lang import capital
 from tale.player import Player
 from tale.util import call_periodically, Context
 from tale.items.basic import elastic_band, woodenYstick
 from tale.verbdefs import AGGRESSIVE_VERBS
-# from npcs import Zombie
-
+from zones.npcs import Trader, Zombie
 
 # define the various locations
 
 class GameEnd(Location):
+    @call_periodically(30, 60)
+    def spawn_zombie(self, ctx: Context) -> None:
+        w = Zombie("blankly staring person", random.choice("mf"), descr="A person staring blankly somewhere.")
+        w.aliases = {"person", "staring person"}
+        w.move(self)
+
     def notify_player_arrived(self, player: Player, previous_location: Location) -> None:
         # player has entered, and thus the story ends
         player.tell("\n")
@@ -79,42 +84,15 @@ class Cat(Living):
             if self.name in message or "cat" in message:
                 self.tell_others("{Actor} looks up at {target} and wiggles %s tail." % self.possessive, target=actor)
 
-class Zombie(Living):
-    def init(self):
-        self.attacking = False
 
-    @call_periodically(10, 20)
-    def do_wander(self, ctx: Context) -> None:
-        if not self.attacking:
-            # Let the mob wander randomly.
-            direction = self.select_random_move()
-            if direction:
-                self.move(direction.target, self, direction_names=direction.names)
-
-    @call_periodically(4, 10)
-    def do_attack(self, ctx: Context) -> None:
-        if not self.attacking:
-            for liv in self.location.livings:
-                if isinstance(liv, Player):
-                    self.start_attack(liv)
-                    liv.tell("It may be a good idea to run away!")
-                    self.attacking = True
-                    ctx.driver.defer(5, self.kill_player, liv)      # give player a moment to react to the attack
-                    break
-
-    def kill_player(self, player: Player, ctx: Context) -> None:
-        # player can only be killed if she is still here, obviously
-        if self.attacking and player in self.location.livings:
-            player.tell_text_file(ctx.resources["messages/completion_failed.txt"])
-            raise StoryCompleted
-        self.attacking = False
-
-
-cat = Cat("garfield", "m", race="cat", descr="A very obese cat, orange and black. It looks tired, but glances at you happily.")
+cat = Cat("molly", "m", race="cat", descr="A very obese cat, orange and black. It looks tired, but glances at you happily.")
 livingroom.insert(cat, None)
 
 zombie =  w = Zombie("zombie", random.choice("mf"), descr="A person staring blankly somewhere.")
 livingroom.insert(zombie, None)
+
+# trader = Trader(name="trader", gender="m", descr="A old man in a cloak opens a chest and asks you if you want to buy or sell")
+# closet.insert(trader, None)
 
 key = Key("key", "small rusty key", descr="This key is small and rusty. It has a label attached, reading \"garden door\".")
 key.key_for(door)
@@ -122,3 +100,15 @@ closet.insert(key, None)
 
 closet.insert(woodenYstick.clone(), None)
 livingroom.insert(elastic_band.clone(), None)
+
+trader = Trader("Old man", "m", title="Old man")
+trader.extra_desc["bullets"] = "It is a a box of rounds with 5 bullets in it for your gun."
+trader.extra_desc["ammo"] = trader.extra_desc["bullets"]
+trader.aliases.add("trader")
+
+# ammo
+ammo = Item("ammo", "5 pistol bullets", descr="It looks like the ammo for your gun.")
+ammo.value = Trader.ammo_price
+ammo.aliases = {"bullets", "ammo"}
+trader.init_inventory([ammo])
+closet.insert(trader, None)
