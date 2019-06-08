@@ -5,6 +5,7 @@ The actual mudlib 'world' code
 Copyright by Irmen de Jong (irmen@razorvine.net)
 """
 import sys
+import appdirs
 from distutils.version import LooseVersion
 from typing import Any
 
