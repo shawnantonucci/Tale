@@ -38,7 +38,7 @@ class Story(StoryBase):
     config.epoch = datetime.datetime(2015, 5, 14, 14, 0, 0)       # start date/time of the game clock\
     config.savegames_enabled = True
     config.show_exits_in_look = True
-    config.mud_host = "localhost"
+    config.mud_host = "35.236.15.213"
     config.mud_port = 1234
     config.license_file = "messages/license.txt"
     # Your story-specific configuration fields should be added below.
