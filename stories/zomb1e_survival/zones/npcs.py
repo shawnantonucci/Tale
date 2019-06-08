@@ -65,7 +65,7 @@ class Trader(Living):
     def description(self) -> str:
         if self.search_item("ammo", include_location=False):
             return "%s looks at you and shows you a box of ammo in %s hands." % (lang.capital(self.subjective), self.possessive)
-        return "%s see you again." % self.subjective
+        return "%s a creepy old man with wares." % self.subjective
 
     @description.setter
     def description(self, value: str) -> None:
