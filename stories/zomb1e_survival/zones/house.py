@@ -76,7 +76,7 @@ class Bird(Living):
             self.tell_others("{Actor} Gets excited and dances around chirping.")
         elif parsed.verb in AGGRESSIVE_VERBS:
             if self in parsed.who_info:   # only give aggressive response when directed at the cat.
-                self.tell_others("{Actor} latches onto you and bites you. %s backs away from you." % self.objective)
+                self.tell_others("{Actor} latches onto you and bites you. He backs away from you." % self.objective)
         elif parsed.verb in ("hello", "hi", "greet", "chirp"):
             self.tell_others("{Actor} stares at {target} incomprehensibly.", target=actor)
         else:

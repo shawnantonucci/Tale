@@ -84,5 +84,5 @@ class Story(StoryBase):
 if __name__ == "__main__":
     # story is invoked as a script, start it.
     from tale.main import run_from_cmdline
-    run_from_cmdline(["--game", sys.path[0], "--mode", "mud"])
+    run_from_cmdline(["--game", sys.path[0]])
 
