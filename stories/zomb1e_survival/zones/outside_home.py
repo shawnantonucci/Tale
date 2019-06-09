@@ -26,7 +26,7 @@ zombie =  w = Zombie("zombie", random.choice("mf"), descr="A person staring blan
 street1.insert(zombie, None)
 
 
-trader = Trader("Old man", "m", title="Old man")
+trader = Trader("Creepy Trader", "m", title="Creepy Trader")
 trader.extra_desc["bullets"] = "It is a a box of rounds with 5 bullets in it for your gun."
 trader.extra_desc["ammo"] = trader.extra_desc["bullets"]
 trader.aliases.add("trader")
@@ -36,4 +36,4 @@ ammo = Item("ammo", "5 pistol bullets", descr="It looks like the ammo for your g
 ammo.value = Trader.ammo_price
 ammo.aliases = {"bullets", "ammo"}
 trader.init_inventory([ammo])
-street1.insert(trader, None)
+deli.insert(trader, None)
