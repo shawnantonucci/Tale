@@ -30,7 +30,7 @@ class Story(StoryBase):
     config.player_gender = "m"
     config.playable_races = {"human"}
     config.startlocation_player = "house.livingroom"
-    config.zones = ["house"]
+    config.zones = ["house", "outside_home"]
     config.server_tick_method = TickMethod.TIMER
     config.server_tick_time = 1.0
     config.gametime_to_realtime = 5
